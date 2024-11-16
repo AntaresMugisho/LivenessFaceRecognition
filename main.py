@@ -130,7 +130,3 @@ async def stream(websocket: WebSocket):
             print("WebSocket error:", e)
             await websocket.close()
             break
-
-
-if __name__ == '__main__':
-    pass
