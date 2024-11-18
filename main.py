@@ -64,7 +64,12 @@ def match_face(frame, passport_encoding):
     return False, 0.0  # No match
 
 
-@app.post("/upload-passport/")
+@app.get()
+def index():
+    return {"status": "API is alive"}
+
+
+@app.post("/upload-passport")
 async def upload_passport(image: bytes):
     """
     Endpoint to upload a passport photo and extract its face encoding.
@@ -127,6 +132,5 @@ async def stream(websocket: WebSocket):
             await websocket.send_json(response)
 
         except Exception as e:
-            print("WebSocket error:", e)
             await websocket.close()
             break
