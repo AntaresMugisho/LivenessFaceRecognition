@@ -1,7 +1,7 @@
 import logging
 import base64
 
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, WebSocket, UploadFile
 import cv2
 import numpy as np
 import face_recognition
@@ -79,6 +79,14 @@ def match_face(frame, passport_encoding):
 @app.get("/")
 def index():
     return {"status": "API is alive"}
+
+
+@app.post("/uploadfile")
+async def create_upload_file(file: UploadFile):
+    image = await file.read()
+    return {"filename": file.filename,
+            "type": type(image)
+            }
 
 
 @app.post("/upload-passport")
