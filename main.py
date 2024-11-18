@@ -1,8 +1,20 @@
+import logging
 import base64
+
 from fastapi import FastAPI, WebSocket
 import cv2
 import numpy as np
 import face_recognition
+
+
+logging.basicConfig(
+    filename="app.log",
+    encoding="utf-8",
+    filemode="a",
+    format="{asctime} - {levelname} - {message}",
+    style="{",
+    datefmt="%d-%m-%Y %H:%M",
+)
 
 app = FastAPI()
 
@@ -64,7 +76,7 @@ def match_face(frame, passport_encoding):
     return False, 0.0  # No match
 
 
-@app.get()
+@app.get("/")
 def index():
     return {"status": "API is alive"}
 
@@ -133,4 +145,5 @@ async def stream(websocket: WebSocket):
 
         except Exception as e:
             await websocket.close()
+            logging.error(str(e))
             break
