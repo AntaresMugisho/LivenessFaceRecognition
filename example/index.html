@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Ask the user to upload his passeport -->
+    <h2>Page 1</h2>
+    <input type="file" id="passportInput" accept="image/*">
+    <button id="uploadButton">Upload Passport</button>
+    <p id="uploadStatus">Upload Status: Not uploaded.</p>
+
+
+    <!-- Access user's camera and display the capture video -->
+    <h1>Page 2</h1>
+    <video id="video" autoplay muted></video>
+    <p id="status">Status: Connecting...</p>
+    
+    <script src="app.js"></script>
+</body>
+</html>
