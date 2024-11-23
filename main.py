@@ -103,6 +103,7 @@ async def upload_passport(image: Annotated[bytes, File()]):
     Endpoint to upload a passport photo and extract its face encoding.
     """
     global passport_encoding
+    
     # Decode the image bytes
     nparr = np.frombuffer(image, np.uint8)
     passport_image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
