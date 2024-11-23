@@ -1,11 +1,12 @@
 import logging
 import base64
+from typing import Annotated
 
-from fastapi import FastAPI, WebSocket, UploadFile
+from fastapi import FastAPI, WebSocket, File
+from fastapi.middleware.cors import CORSMiddleware
 import cv2
 import numpy as np
 import face_recognition
-
 
 logging.basicConfig(
     filename="app.log",
@@ -16,7 +17,22 @@ logging.basicConfig(
     datefmt="%d-%m-%Y %H:%M",
 )
 
+
 app = FastAPI()
+
+origins = [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+    "http://localhost",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Placeholder for the passport image encoding
 passport_encoding = None
@@ -81,16 +97,8 @@ def index():
     return {"status": "API is alive"}
 
 
-@app.post("/uploadfile")
-async def create_upload_file(file: UploadFile):
-    image = await file.read()
-    return {"filename": file.filename,
-            "type": type(image)
-            }
-
-
 @app.post("/upload-passport")
-async def upload_passport(image: bytes):
+async def upload_passport(image: Annotated[bytes, File()]):
     """
     Endpoint to upload a passport photo and extract its face encoding.
     """
